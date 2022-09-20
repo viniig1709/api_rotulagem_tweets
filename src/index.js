@@ -11,12 +11,12 @@ const HOST = '0.0.0.0';
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: '5mb'}));
+app.use(bodyParser.urlencoded({ extended: false, limit: '5mb' }));
 
 app.set('view engine', 'ejs');
-// app.use(express.static('public'));
-app.use('/static/public', express.static('public'));
+app.use(express.static('public'));
+// app.use('/static/public', express.static('public'));
 
 // app.get('/', (req, res) => {
 //   res.send('Ok');
