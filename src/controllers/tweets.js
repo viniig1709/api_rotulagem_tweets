@@ -45,7 +45,10 @@ router.get('/listar/tweet/rotular', async (req, res) => {
 
     const tweets = await Tweet.find({rotulado: false});
 
-    const tweet = tweets[Math.floor(Math.random() * tweets.length)]
+    let tweet = {idTweet: -1, text: 'Não há mais tweets para rotular! Obrigado!'}
+
+    if(tweets.length > 0)
+      tweet = tweets[Math.floor(Math.random() * tweets.length)]
 
     return res.send({ tweet });
     
@@ -73,8 +76,8 @@ router.post('/adicionar/dump', async (req, res) => {
     // const file = require('../../data/Tweets/dadosTwitter.json')
     // console.log(file);
 
-    const a = await Tweet.deleteMany();
-    console.log(a.deletedCount);
+    // const a = await Tweet.deleteMany();
+    // console.log(a.deletedCount);
 
     // console.log(req.body);
     const tweets = await Tweet.insertMany(req.body);
