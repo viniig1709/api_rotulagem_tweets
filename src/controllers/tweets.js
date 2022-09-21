@@ -16,6 +16,18 @@ router.get('/listar/todos', async (req, res) => {
   }
 });
 
+router.get('/listar/rotulados', async (req, res) => {
+  try {
+
+    const tweets = await Tweet.find({rotulado: true});
+
+    return res.send({ tweets });
+    
+  } catch (err) {
+    return res.status(400).send({ error: err });
+  }
+});
+
 router.get('/listar/:idTweet', async (req, res) => {
   try {
 
@@ -33,7 +45,7 @@ router.get('/listar/tweet/rotular', async (req, res) => {
 
     const tweets = await Tweet.find({rotulado: false});
 
-    const tweet = tweets[Math.floor(Math.random() * (tweets.length + 1))]
+    const tweet = tweets[Math.floor(Math.random() * tweets.length)]
 
     return res.send({ tweet });
     
@@ -48,7 +60,7 @@ router.post('/rotular/tweet', async (req, res) => {
     const tweet = await Tweet.findOneAndUpdate({idTweet: req.body.idTweet}, {rotulado: true, categoriaRotulo: req.body.categoriaRotulo}, {new: true});
     console.log(tweet);
 
-    return res.send({ msg: "Inserção realizada com sucesso!" + tweet.status() });
+    return res.send({ msg: "Rotulagem realizada com sucesso!" });
     
   } catch (err) {
     return res.status(400).send({ error: err });
@@ -69,7 +81,7 @@ router.post('/adicionar/dump', async (req, res) => {
 
     console.log(tweets.length);
 
-    return res.send({ "msg": "Inserção realizada com sucesso!" + tweets.status() });
+    return res.send({ "msg": "Inserção realizada com sucesso!" });
     
   } catch (err) {
     return res.status(400).send({ error: err });
